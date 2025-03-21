@@ -1,0 +1,126 @@
+[I 2025-03-20 17:22:40,897] A new study created in memory with name: no-name-af36b9ff-b296-471b-8bf2-73f4b8d7e4b2
+[I 2025-03-20 17:22:46,655] Trial 0 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.3886062020899679, 'dropout_l1': 0.4417969597831778, 'dropout_l2': 0.3714382706684156, 'learning_rate': 0.0002608522126189277}. Best is trial 0 with value: 0.8799999952316284.
+[I 2025-03-20 17:22:56,525] Trial 1 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.20096330193982706, 'dropout_l1': 0.3986950458369539, 'dropout_l2': 0.4191561035991118, 'learning_rate': 1.2233727894751317e-05}. Best is trial 1 with value: 0.8999999761581421.
+[I 2025-03-20 17:23:07,172] Trial 2 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.27478691768488184, 'dropout_l1': 0.49407385353724714, 'dropout_l2': 0.33500081524782777, 'learning_rate': 1.664761832248003e-05}. Best is trial 1 with value: 0.8999999761581421.
+[I 2025-03-20 17:23:14,346] Trial 3 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.48550853274919203, 'dropout_l1': 0.34599739122664974, 'dropout_l2': 0.2886908000263428, 'learning_rate': 0.0002419463184698091}. Best is trial 1 with value: 0.8999999761581421.
+[I 2025-03-20 17:23:24,031] Trial 4 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.20200232030580476, 'dropout_l1': 0.36155199386568115, 'dropout_l2': 0.4937984226557484, 'learning_rate': 5.212722759907629e-05}. Best is trial 1 with value: 0.8999999761581421.
+[I 2025-03-20 17:23:33,395] Trial 5 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.27046330005607755, 'dropout_l1': 0.3947793591639106, 'dropout_l2': 0.2735532205961593, 'learning_rate': 3.7774735251446025e-05}. Best is trial 1 with value: 0.8999999761581421.
+[I 2025-03-20 17:23:39,835] Trial 6 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.41633278040456523, 'dropout_l1': 0.27545812682283355, 'dropout_l2': 0.27397732458141366, 'learning_rate': 0.00021295446331307227}. Best is trial 1 with value: 0.8999999761581421.
+[I 2025-03-20 17:23:48,157] Trial 7 finished with value: 0.9599999785423279 and parameters: {'dropout_l0': 0.36541966474114446, 'dropout_l1': 0.4138923885080243, 'dropout_l2': 0.3741748217887154, 'learning_rate': 5.04145098619159e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:23:58,461] Trial 8 finished with value: 0.8399999737739563 and parameters: {'dropout_l0': 0.33870490230975026, 'dropout_l1': 0.2516788375564999, 'dropout_l2': 0.4558121146926602, 'learning_rate': 5.549009005537999e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:24:09,263] Trial 9 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.41684033363770506, 'dropout_l1': 0.2520472187986874, 'dropout_l2': 0.3881515975667734, 'learning_rate': 1.1078856891752402e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:24:14,778] Trial 10 pruned. Trial was pruned at epoch 17.
+[I 2025-03-20 17:24:18,344] Trial 11 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:24:21,936] Trial 12 finished with value: 0.5799999833106995 and parameters: {'dropout_l0': 0.2453904253547581, 'dropout_l1': 0.3123885764288168, 'dropout_l2': 0.41552887498822466, 'learning_rate': 0.0009996022498603742}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:24:26,400] Trial 13 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:24:34,575] Trial 14 pruned. Trial was pruned at epoch 33.
+[I 2025-03-20 17:24:38,910] Trial 15 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:24:43,229] Trial 16 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:24:47,573] Trial 17 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:24:56,629] Trial 18 pruned. Trial was pruned at epoch 33.
+[I 2025-03-20 17:25:04,555] Trial 19 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.3037721275044728, 'dropout_l1': 0.3851171445505948, 'dropout_l2': 0.4975461767458095, 'learning_rate': 0.0004254355161291749}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:25:08,722] Trial 20 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:25:18,782] Trial 21 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.27501240189421977, 'dropout_l1': 0.4889201531902713, 'dropout_l2': 0.3373451893553151, 'learning_rate': 1.626490384775502e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:25:22,464] Trial 22 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:25:26,841] Trial 23 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:25:31,035] Trial 24 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:25:35,225] Trial 25 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:25:45,084] Trial 26 finished with value: 0.9200000166893005 and parameters: {'dropout_l0': 0.2580420439658924, 'dropout_l1': 0.42280261205121544, 'dropout_l2': 0.31422299100701534, 'learning_rate': 3.900520186131088e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:25:52,516] Trial 27 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.33078229522290953, 'dropout_l1': 0.39565254052957666, 'dropout_l2': 0.3833307992939149, 'learning_rate': 6.890763637891321e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:25:59,592] Trial 28 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.21954075428273157, 'dropout_l1': 0.42433431671305355, 'dropout_l2': 0.3098589003891814, 'learning_rate': 0.00014925300726694878}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:26:09,772] Trial 29 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.3578528108862375, 'dropout_l1': 0.380129934404953, 'dropout_l2': 0.36892729060112545, 'learning_rate': 3.9163825318422156e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:26:19,316] Trial 30 finished with value: 0.6600000262260437 and parameters: {'dropout_l0': 0.2593561157983158, 'dropout_l1': 0.4398758639521346, 'dropout_l2': 0.4117705024078302, 'learning_rate': 7.067565016934743e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:26:23,751] Trial 31 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:26:28,816] Trial 32 pruned. Trial was pruned at epoch 18.
+[I 2025-03-20 17:26:33,380] Trial 33 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:26:42,718] Trial 34 finished with value: 0.9200000166893005 and parameters: {'dropout_l0': 0.20702735462400748, 'dropout_l1': 0.36272259614895924, 'dropout_l2': 0.2849173584634653, 'learning_rate': 3.198627007258606e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:26:47,255] Trial 35 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:26:56,647] Trial 36 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.22052862227097988, 'dropout_l1': 0.3234697513040532, 'dropout_l2': 0.25338318239183527, 'learning_rate': 4.164502492091292e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:27:05,755] Trial 37 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.21488960407638089, 'dropout_l1': 0.35465754484334233, 'dropout_l2': 0.2854550574511588, 'learning_rate': 7.086552418243167e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:27:10,070] Trial 38 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:27:14,721] Trial 39 pruned. Trial was pruned at epoch 13.
+[I 2025-03-20 17:27:19,406] Trial 40 pruned. Trial was pruned at epoch 13.
+[I 2025-03-20 17:27:29,411] Trial 41 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.21058458295810467, 'dropout_l1': 0.4556099265508444, 'dropout_l2': 0.26886349374274915, 'learning_rate': 2.5816389079673775e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:27:33,998] Trial 42 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:27:38,524] Trial 43 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:27:47,602] Trial 44 finished with value: 0.8399999737739563 and parameters: {'dropout_l0': 0.2642618668257709, 'dropout_l1': 0.35793327723751994, 'dropout_l2': 0.3427706330373791, 'learning_rate': 4.7412313288163335e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:27:52,011] Trial 45 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:28:01,709] Trial 46 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.24755688769061057, 'dropout_l1': 0.4978693441930216, 'dropout_l2': 0.3565138637717441, 'learning_rate': 2.056639588376438e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:28:06,126] Trial 47 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:28:16,136] Trial 48 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.3586408975496722, 'dropout_l1': 0.3999762730613207, 'dropout_l2': 0.28227247966181784, 'learning_rate': 2.7882540696296887e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:28:20,485] Trial 49 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:28:30,185] Trial 50 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.4228785823436645, 'dropout_l1': 0.3033454477602093, 'dropout_l2': 0.3024943551911476, 'learning_rate': 3.483599798535743e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:28:33,980] Trial 51 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:28:38,300] Trial 52 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:28:48,686] Trial 53 finished with value: 0.8199999928474426 and parameters: {'dropout_l0': 0.4315675969470431, 'dropout_l1': 0.20009882381352237, 'dropout_l2': 0.39838730614827295, 'learning_rate': 6.26705862383016e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:28:57,517] Trial 54 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.31954592899452694, 'dropout_l1': 0.2219158374754493, 'dropout_l2': 0.3751584663133927, 'learning_rate': 8.476528990781171e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:29:02,336] Trial 55 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:29:06,269] Trial 56 finished with value: 0.5799999833106995 and parameters: {'dropout_l0': 0.4056967249407797, 'dropout_l1': 0.391251804747407, 'dropout_l2': 0.3531112246932945, 'learning_rate': 0.000346768109491403}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:29:11,521] Trial 57 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:29:16,094] Trial 58 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:29:26,936] Trial 59 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.26963453398434695, 'dropout_l1': 0.48388185359147473, 'dropout_l2': 0.3171015716900442, 'learning_rate': 2.455950167161743e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:29:34,620] Trial 60 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.3410771118836265, 'dropout_l1': 0.4618672609803421, 'dropout_l2': 0.4214362407253471, 'learning_rate': 3.1344550422684695e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:29:39,029] Trial 61 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:29:43,637] Trial 62 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:29:48,232] Trial 63 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:29:52,975] Trial 64 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:30:03,977] Trial 65 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.21038333998302433, 'dropout_l1': 0.2630012274307895, 'dropout_l2': 0.40620695971034854, 'learning_rate': 5.5199675759034306e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:30:09,294] Trial 66 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:30:14,046] Trial 67 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:30:18,523] Trial 68 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:30:23,147] Trial 69 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:30:29,126] Trial 70 pruned. Trial was pruned at epoch 16.
+[I 2025-03-20 17:30:36,310] Trial 71 pruned. Trial was pruned at epoch 16.
+[I 2025-03-20 17:30:41,533] Trial 72 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.21872349334965474, 'dropout_l1': 0.4209151883867017, 'dropout_l2': 0.2768326876593035, 'learning_rate': 0.00022028119373143762}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:30:48,923] Trial 73 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.2536975015479213, 'dropout_l1': 0.4121406462204305, 'dropout_l2': 0.31078119285350064, 'learning_rate': 0.00017107701115967123}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:30:56,696] Trial 74 finished with value: 0.9399999976158142 and parameters: {'dropout_l0': 0.2378098798404338, 'dropout_l1': 0.4046530588668573, 'dropout_l2': 0.29073681947626867, 'learning_rate': 0.00011087097215241399}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:31:05,317] Trial 75 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.244312782199264, 'dropout_l1': 0.40294914642674606, 'dropout_l2': 0.28814035038357444, 'learning_rate': 0.00011496893643835416}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:31:12,636] Trial 76 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.2632412363355126, 'dropout_l1': 0.4914446039419287, 'dropout_l2': 0.3475781991101702, 'learning_rate': 7.921995021657841e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:31:23,070] Trial 77 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.23580651335313027, 'dropout_l1': 0.38206879765814267, 'dropout_l2': 0.26196046257503386, 'learning_rate': 6.088419679917624e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:31:27,998] Trial 78 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:31:33,012] Trial 79 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:31:39,898] Trial 80 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.271118715980375, 'dropout_l1': 0.44999329913868824, 'dropout_l2': 0.3338244311372306, 'learning_rate': 9.52768913801262e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:31:45,164] Trial 81 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.2236540755995472, 'dropout_l1': 0.4288688698905595, 'dropout_l2': 0.3201586306039859, 'learning_rate': 0.00013766147888440177}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:31:52,219] Trial 82 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.21460640173148773, 'dropout_l1': 0.44092408877694256, 'dropout_l2': 0.3066388836673751, 'learning_rate': 0.00012304694149999464}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:00,147] Trial 83 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.24994005554894091, 'dropout_l1': 0.4114732030125654, 'dropout_l2': 0.2931447677807429, 'learning_rate': 0.00017274838839559107}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:07,964] Trial 84 finished with value: 0.8399999737739563 and parameters: {'dropout_l0': 0.20654821719773522, 'dropout_l1': 0.39928045717825655, 'dropout_l2': 0.2791626651962568, 'learning_rate': 0.00014951277804035282}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:15,362] Trial 85 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.23817242075118694, 'dropout_l1': 0.4242324387124123, 'dropout_l2': 0.3096974889525434, 'learning_rate': 0.00019424020382613429}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:23,461] Trial 86 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.44784167666030206, 'dropout_l1': 0.38461161499958363, 'dropout_l2': 0.3440030382788044, 'learning_rate': 0.00010985412690899697}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:30,932] Trial 87 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.4633731489887741, 'dropout_l1': 0.35510897652067175, 'dropout_l2': 0.41040873811128087, 'learning_rate': 4.6018629350150186e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:39,082] Trial 88 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.22144942776969334, 'dropout_l1': 0.38893963445201646, 'dropout_l2': 0.3598915421540809, 'learning_rate': 0.00026398136851475896}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:32:43,829] Trial 89 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:32:47,921] Trial 90 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:32:56,964] Trial 91 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.3800399912171889, 'dropout_l1': 0.40302108075442444, 'dropout_l2': 0.32219091597582933, 'learning_rate': 4.203043036487075e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:33:08,530] Trial 92 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.3620594761136984, 'dropout_l1': 0.3802549611816383, 'dropout_l2': 0.26900953754815066, 'learning_rate': 3.611876386537624e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:33:14,579] Trial 93 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:33:19,155] Trial 94 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:33:24,216] Trial 95 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:33:32,087] Trial 96 finished with value: 0.8199999928474426 and parameters: {'dropout_l0': 0.3576027352919737, 'dropout_l1': 0.3984580142437774, 'dropout_l2': 0.39031952819349736, 'learning_rate': 8.01346199260796e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:33:43,072] Trial 97 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.4344156447936599, 'dropout_l1': 0.4346657406648942, 'dropout_l2': 0.3526840572139568, 'learning_rate': 4.97349609573938e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:33:53,435] Trial 98 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.28261544806644356, 'dropout_l1': 0.46165549117981114, 'dropout_l2': 0.3411867527989141, 'learning_rate': 1.989447788276688e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:34:02,630] Trial 99 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.39395241474974546, 'dropout_l1': 0.21073641665034396, 'dropout_l2': 0.36677573138762326, 'learning_rate': 6.32921986730882e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:34:07,680] Trial 100 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:34:18,525] Trial 101 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.21641440017339406, 'dropout_l1': 0.31520518663552316, 'dropout_l2': 0.2415070111843657, 'learning_rate': 4.1679507636831556e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:34:23,086] Trial 102 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:34:28,291] Trial 103 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:34:39,315] Trial 104 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.24271610900217194, 'dropout_l1': 0.3754460971552012, 'dropout_l2': 0.3121564829935687, 'learning_rate': 3.81249893968091e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:34:46,949] Trial 105 finished with value: 0.8399999737739563 and parameters: {'dropout_l0': 0.2091482630206981, 'dropout_l1': 0.3291387106898559, 'dropout_l2': 0.2544187189451763, 'learning_rate': 0.0005833712016031339}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:34:57,435] Trial 106 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.2341838175203833, 'dropout_l1': 0.35191452927565414, 'dropout_l2': 0.30206231586210547, 'learning_rate': 5.587955741726528e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:35:02,460] Trial 107 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:35:13,605] Trial 108 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.22422410031833773, 'dropout_l1': 0.29032180891632886, 'dropout_l2': 0.37422834109781694, 'learning_rate': 2.6209495373500916e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:35:18,820] Trial 109 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:35:28,406] Trial 110 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.25352270954543327, 'dropout_l1': 0.32405669551200034, 'dropout_l2': 0.3281644378011547, 'learning_rate': 8.871873748385728e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:35:41,405] Trial 111 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.2509898459465434, 'dropout_l1': 0.48931075361482435, 'dropout_l2': 0.3565803929421609, 'learning_rate': 2.1762123157522435e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:35:47,000] Trial 112 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:35:54,578] Trial 113 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.2463631941845551, 'dropout_l1': 0.47381841195050356, 'dropout_l2': 0.403150825959934, 'learning_rate': 0.00013629730669567568}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:36:05,205] Trial 114 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.21183125243242765, 'dropout_l1': 0.4961979467944736, 'dropout_l2': 0.3348258657113156, 'learning_rate': 1.3301068910807887e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:36:10,672] Trial 115 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:36:23,349] Trial 116 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.24043581086900928, 'dropout_l1': 0.4225951654779228, 'dropout_l2': 0.22862900268082348, 'learning_rate': 1.9925836916317413e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:36:33,866] Trial 117 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.21918498747092005, 'dropout_l1': 0.4794016447280325, 'dropout_l2': 0.3852066492732828, 'learning_rate': 3.285523468657223e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:36:38,909] Trial 118 pruned. Trial was pruned at epoch 10.
+[I 2025-03-20 17:36:49,871] Trial 119 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.341741449064719, 'dropout_l1': 0.4256678139541455, 'dropout_l2': 0.3178363307457729, 'learning_rate': 2.9871603251187504e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:37:00,141] Trial 120 finished with value: 0.8999999761581421 and parameters: {'dropout_l0': 0.229461970372986, 'dropout_l1': 0.3957684683537229, 'dropout_l2': 0.3565107409614866, 'learning_rate': 4.394578963950701e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:37:10,108] Trial 121 finished with value: 0.8399999737739563 and parameters: {'dropout_l0': 0.32729318305969296, 'dropout_l1': 0.2167477731832296, 'dropout_l2': 0.37451449151546745, 'learning_rate': 5.436928239254294e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:37:19,959] Trial 122 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.20803202100275642, 'dropout_l1': 0.2078423783517773, 'dropout_l2': 0.41528675761568695, 'learning_rate': 3.8811469103991984e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:37:29,927] Trial 123 finished with value: 0.8600000143051147 and parameters: {'dropout_l0': 0.27354295565340925, 'dropout_l1': 0.23697155889136223, 'dropout_l2': 0.3952338046160928, 'learning_rate': 7.770752985491353e-05}. Best is trial 7 with value: 0.9599999785423279.
+[I 2025-03-20 17:37:40,582] Trial 124 finished with value: 0.8799999952316284 and parameters: {'dropout_l0': 0.29185514964140874, 'dropout_l1': 0.2277592508143896, 'dropout_l2': 0.3414566931223478, 'learning_rate': 3.480015268099574e-05}. Best is trial 7 with value: 0.9599999785423279.
