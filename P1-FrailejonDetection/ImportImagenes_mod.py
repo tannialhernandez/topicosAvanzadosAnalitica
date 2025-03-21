@@ -2,6 +2,7 @@ import h5py
 import numpy as np
 import urllib.request
 from sklearn.model_selection import train_test_split
+import cv2
 
 def extraer_patches_basicos(imagenes, etiqueta, img_size, num_canales):
     """Extrae parches básicos sin aumentación de datos"""
@@ -58,7 +59,9 @@ def aplicar_data_augmentation_enhanced(X_train, y_train, img_size, num_canales, 
         lambda img: np.clip(img + 20, 0, 255).astype(np.uint8),  # Aumento de contraste
         lambda img: np.clip(img - 20, 0, 255).astype(np.uint8),  # Disminución de contraste
         lambda img: np.clip(np.fliplr(np.rot90(img, k=1)), 0, 255).astype(np.uint8),  # Combinación 1
-        lambda img: np.clip(np.flipud(np.rot90(img, k=2)), 0, 255).astype(np.uint8)  # Combinación 2
+        lambda img: np.clip(np.flipud(np.rot90(img, k=2)), 0, 255).astype(np.uint8),  # Combinación 2
+        lambda img: cv2.cvtColor(np.clip(cv2.cvtColor(img, cv2.COLOR_RGB2HSV) * np.array([1, 1.2, 1]), 0, 255).astype(np.uint8), cv2.COLOR_HSV2RGB),
+        lambda img: cv2.dilate(img, np.ones((3, 3), np.uint8), iterations=1)
     ]
     
     for i, patch in enumerate(X_train):
@@ -108,7 +111,7 @@ def import_imagenes(use_enhanced_method=False, test_size=0.2, random_state=42, t
         print(f"Número de imágenes originales - Frailejon: {len(fraile)}, NoFrailejon: {len(nofraile)}")
         print(f"Forma de arrays originales - Frailejon: {fraile.shape}, NoFrailejon: {nofraile.shape}")
         
-        img_size = 70  
+        img_size = 71  
         num_canales = 3  
 
         fraile_patches, y_fraile = extraer_patches_basicos(fraile, 1, img_size, num_canales)
@@ -236,6 +239,10 @@ def import_imagenes(use_enhanced_method=False, test_size=0.2, random_state=42, t
             lambda img: np.clip(img - 20, 0, 255).astype(np.uint8),  # Disminución de contraste
             lambda img: np.clip(np.fliplr(np.rot90(img, k=1)), 0, 255).astype(np.uint8),  # Combinación 1
             lambda img: np.clip(np.flipud(np.rot90(img, k=2)), 0, 255).astype(np.uint8)  # Combinación 2
+            # lambda img: cv2.cvtColor(np.clip(cv2.cvtColor(img, cv2.COLOR_RGB2HSV) * np.array([1, 1.2, 1]), 0, 255).astype(np.uint8), cv2.COLOR_HSV2RGB),
+            # lambda img: cv2.dilate(img, np.ones((3, 3), np.uint8), iterations=1)
+
+
         ]
         
         img_size = int(np.sqrt(X_train.shape[1] / 3))  
