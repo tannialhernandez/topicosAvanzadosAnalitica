@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEPURACIÓN DE DATOS</title>
+    <!-- Enlaces a fuentes externas -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: #0f0f1a;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(123, 104, 238, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 77, 77, 0.05) 0%, transparent 40%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes scaleIn {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Encabezado */
+        .header {
+            background-color: rgba(15, 15, 26, 0.9);
+            padding: 15px 30px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ff4d4d, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .slide-title {
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .slide-title::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, #7b68ee, #ff4d4d);
+            border-radius: 3px;
+        }
+        
+        
+        .slide-title:hover::after {
+            width: 100%;
+        }
+        
+        .page-number {
+            font-size: 1rem;
+            opacity: 0.7;
+            background-color: rgba(123, 104, 238, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            position: relative;
+        }
+        .page-number::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(123, 104, 238, 0.3), transparent);
+            border-radius: 20px;
+        }
+        
+        /* Contenido principal con layout rediseñado */
+        .content {
+            flex: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Panel de navegación vertical izquierdo */
+        .sidebar {
+            width: 280px;
+            background-color: rgba(20, 20, 40, 0.8);
+            padding: 25px 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 5;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar-title {
+            font-size: 1.4rem;
+            color: #7b68ee;
+            margin-bottom: 30px;
+            position: relative;
+            padding: 0 25px 15px;
+            border-bottom: 1px solid rgba(123, 104, 238, 0.3);
+        }
+        
+        /* Contenedor principal de contenido */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px;
+            scrollbar-width: thin;
+            scrollbar-color: #7b68ee rgba(30, 30, 48, 0.5);
+        }
+        
+        .main-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .main-content::-webkit-scrollbar-track {
+            background: rgba(30, 30, 48, 0.5);
+        }
+        
+        .main-content::-webkit-scrollbar-thumb {
+            background-color: #7b68ee;
+            border-radius: 10px;
+        }
+        
+        /* Elementos del menú de navegación vertical */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .nav-item {
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .nav-item.active {
+            background-color: rgba(123, 104, 238, 0.2);
+            border-left: 4px solid #7b68ee;
+        }
+        
+        .nav-item:hover:not(.active) {
+            background-color: rgba(123, 104, 238, 0.1);
+        }
+        
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-right: 10px;
+            color: #7b68ee;
+        }
+        
+        .nav-item .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #7b68ee, #ff4d4d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: auto;
+        }
+        
+        /* Títulos de sección */
+        .section-title {
+            font-size: 1.6rem;
+            color: #7b68ee;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(45deg, #7b68ee, #ff4d4d);
+        }
+        
+        /* Tarjetas de proceso */
+        .process-card {
+            background-color: rgba(30, 30, 48, 0.8);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: calc(var(--i) * 0.2s);
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(to bottom, #7b68ee, #ff4d4d) 1;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .process-card-title {
+            font-size: 1.3rem;
+            color: #ff4d4d;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .process-card-title i {
+            margin-right: 12px;
+            background: linear-gradient(45deg, #ff4d4d, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+        
+        .process-card p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Código de muestra */
+        .code-sample {
+            background-color: #1a1a2e;
+            border-radius: 8px;
+            padding: 18px;
+            margin-top: 15px;
+            font-family: 'Fira Code', monospace;
+            position: relative;
+            overflow: hidden;
+            font-size: 0.9rem;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: calc(var(--i) * 0.5s + 1s);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+            color: #e0e0e0;
+            white-space: pre-wrap;
+        }
+        
+        .code-sample::before {
+            content: "Python";
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(45deg, #7b68ee, #5a4ebb);
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            border-radius: 0 8px 0 8px;
+            font-weight: bold;
+        }
+        
+        /* Syntax highlighting para código */
+        .code-sample .comment { color: #6c7293; }
+        .code-sample .keyword { color: #ff79c6; }
+        .code-sample .function { color: #8be9fd; }
+        .code-sample .string { color: #f1fa8c; }
+        .code-sample .variable { color: #bd93f9; }
+        .code-sample .number { color: #bd93f9; }
+        .code-sample .operator { color: #ff79c6; }
+        
+        /* Mapa de calor */
+        .heatmap {
+            background-color: rgba(30, 30, 48, 0.8);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.6s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(to bottom, #ff4d4d, #7b68ee) 1;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .heatmap:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .heatmap-title {
+            font-size: 1.3rem;
+            color: #ff4d4d;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .heatmap-title i {
+            margin-right: 12px;
+            background: linear-gradient(45deg, #ff4d4d, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+        
+        .heatmap-container {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(24, 24, 36, 0.6);
+            margin: 15px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid rgba(123, 104, 238, 0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: 120px repeat(9, 1fr); 
+            grid-template-rows: 40px repeat(9, 1fr);    
+            gap: 2px;
+            width: 100%;
+            height: auto;
+            text-align: center;
+        }
+        
+        .heatmap-label-x,
+        .heatmap-label-y {
+            font-weight: bold;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
+            background-color: rgba(123, 104, 238, 0.1);
+            color: #fff;
+        }
+        
+        .heatmap-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #fff;
+            height: 40px;
+            border-radius: 4px;
+            transition: none; /* sin animación */
+        }
+
+        
+        .heatmap-cell:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(123, 104, 238, 0.5);
+        }
+        
+        .heatmap-cell::before {
+            content: attr(data-genres);
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background-color: rgba(15, 15, 26, 0.9);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 20;
+        }
+        
+        .heatmap-cell::after {
+            content: attr(data-value);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background-color: rgba(15, 15, 26, 0.9);
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            opacity: 0;
+            transition: transform 0.3s, opacity 0.3s;
+            pointer-events: none;
+            z-index: 20;
+        }
+        
+
+        
+        .heatmap p {
+            margin-top: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+        }
+        
+        /* Diagrama de flujo */
+        .flow-diagram {
+            background-color: rgba(30, 30, 48, 0.8);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.8s;
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(to bottom, #7b68ee, #ff4d4d) 1;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .flow-diagram:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .flow-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .flow-step {
+            width: 180px;
+            padding: 15px;
+            margin: 0 10px;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.3), rgba(49, 43, 99, 0.3));
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(123, 104, 238, 0.4);
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            animation-delay: calc(var(--i) * 0.2s + 1s);
+            transition: all 0.3s ease;
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.5), rgba(49, 43, 99, 0.5));
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .flow-step::after {
+            content: "→";
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: #7b68ee;
+            z-index: 5;
+        }
+        
+        .flow-step:last-child::after {
+            display: none;
+        }
+        
+        .flow-step-number {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(45deg, #ff4d4d, #7b68ee);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Sección de agrupación */
+        .grouping-section {
+            background-color: rgba(30, 30, 48, 0.8);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.8s;
+            border-left: 4px solid transparent;
+            border-image: linear-gradient(to bottom, #7b68ee, #ff4d4d) 1;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .grouping-section:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .grouping-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Grupos de géneros */
+        .genre-groups {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .group-tag {
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.6), rgba(49, 43, 99, 0.6));
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            animation-delay: calc(var(--i) * 0.1s + 2.5s);
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+            cursor: pointer;
+            border: 1px solid rgba(123, 104, 238, 0.3);
+        }
+        
+        .group-tag:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(123, 104, 238, 0.3);
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.8), rgba(49, 43, 99, 0.8));
+        }
+        
+        .group-tag::after {
+            content: attr(data-combo);
+            position: absolute;
+            bottom: -8px;
+            right: -8px;
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(255, 77, 77, 0.4);
+            transition: transform 0.3s;
+        }
+        
+        .group-tag:hover::after {
+            transform: scale(1.1);
+        }
+        
+        /* Estadísticas */
+        .stat-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.2), rgba(49, 43, 99, 0.2));
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 150px;
+            text-align: center;
+            border: 1px solid rgba(123, 104, 238, 0.3);
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.3), rgba(49, 43, 99, 0.3));
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff4d4d, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        /* División de datasets */
+        .dataset-split {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            gap: 20px;
+        }
+        
+        .dataset-box {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.2), rgba(49, 43, 99, 0.2));
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(123, 104, 238, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dataset-box:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.3), rgba(49, 43, 99, 0.3));
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dataset-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff4d4d;
+        }
+        
+        .dataset-percentage {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4d4d;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .dataset-content {
+            font-size: 0.9rem;
+            text-align: left;
+            margin-top: 15px;
+        }
+        
+        /* Navegación */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .nav-button {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #7b68ee, #ff4d4d);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            z-index: 1;
+        }
+        
+        .nav-button i {
+            margin: 0 8px;
+        }
+        
+        .nav-button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff4d4d, #7b68ee);
+            z-index: -1;
+            transition: opacity 0.3s;
+            opacity: 0;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(123, 104, 238, 0.3);
+        }
+        
+        .nav-button:hover::before {
+            opacity: 1;
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: fixed;
+            background-color: rgba(15, 15, 26, 0.95);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(123, 104, 238, 0.3);
+            pointer-events: none;
+            max-width: 250px;
+        }
+        
+        /* Conceptos clave */
+        .key-concept {
+            display: inline-block;
+            color: #ff4d4d;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+            border-bottom: 1px dashed #ff4d4d;
+        }
+        
+        .key-concept:hover::after {
+            content: attr(data-description);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(15, 15, 26, 0.95);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: normal;
+            white-space: nowrap;
+            color: white;
+            z-index: 100;
+            margin-bottom: 5px;
+        }
+        
+        /* Media queries para responsive */
+        @media (max-width: 900px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                padding: 15px;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .nav-menu {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .nav-item {
+                padding: 10px 15px;
+                min-width: max-content;
+            }
+            
+            .flow-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .flow-step {
+                margin: 10px 0;
+                width: 80%;
+            }
+            
+            .flow-step::after {
+                content: "↓";
+                right: 50%;
+                top: auto;
+                bottom: -20px;
+                transform: translateX(50%);
+            }
+            
+            .dataset-split {
+                flex-direction: column;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .process-card, .heatmap, .grouping-section, .group-tag, .heatmap-cell, .code-sample, .flow-step {
+                animation: none;
+                opacity: 1;
+                transform: none;
+            }
+        }
+        .cursor-follower {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: rgba(123, 104, 238, 0.5);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            z-index: 9999;
+            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+            left: 0;
+            top: 0;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(123, 104, 238, 0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        .cloud-word {
+            position: absolute;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            opacity: 0;
+            font-size: calc(var(--size) * 1rem);
+            left: calc(var(--x) * 1%);
+            top: calc(var(--y) * 1%);
+            animation: 
+                fadeInWord 0.5s forwards,
+                floatWord calc(4s + var(--i) * 0.2s) infinite ease-in-out alternate;
+            animation-delay: calc(var(--i) * 0.1s + 0.5s);
+            transition: all 0.3s ease, text-shadow 0.5s ease, transform 0.5s ease;
+            cursor: pointer;
+            z-index: calc(var(--size) * 10);
+        }
+
+        .cloud-word.semantic {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(123, 104, 238, 0.3);
+        }
+
+        .cloud-word.stopword {
+            color: #ff4d4d;
+            text-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+        }
+
+        .cloud-word:hover {
+            transform: scale(1.3) translateZ(20px) !important;
+            z-index: 100;
+        }
+
+        .cloud-word.semantic:hover {
+            text-shadow: 
+                0 0 10px rgba(123, 104, 238, 0.7),
+                0 0 20px rgba(123, 104, 238, 0.5);
+        }
+
+        .cloud-word.stopword:hover {
+            text-shadow: 
+                0 0 10px rgba(255, 77, 77, 0.7),
+                0 0 20px rgba(255, 77, 77, 0.5);
+        }
+
+        .cloud-word::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: currentColor;
+            bottom: -2px;
+            left: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .cloud-word:hover::before {
+            transform: scaleX(1);
+        }
+
+        @keyframes fadeInWord {
+            0% {
+                opacity: 0;
+                transform: translateZ(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+
+        @keyframes floatWord {
+            0% {
+                transform: translate(0, 0) translateZ(0);
+            }
+            50% {
+                transform: translate(calc(var(--i) * 1px), calc(var(--i) * -0.5px)) translateZ(5px);
+            }
+            100% {
+                transform: translate(calc(var(--i) * -1px), calc(var(--i) * 0.5px)) translateZ(0);
+            }
+        }
+
+        /* Animación para palabras destacadas */
+        .word-cloud-active .cloud-word.semantic {
+            animation: pulseWord 2s infinite alternate;
+        }
+
+        .word-cloud-active .cloud-word.stopword {
+            animation: pulseWordRed 2s infinite alternate;
+        }
+
+        @keyframes pulseWord {
+            0% {
+                text-shadow: 0 0 5px rgba(123, 104, 238, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(123, 104, 238, 0.8);
+            }
+        }
+
+        @keyframes pulseWordRed {
+            0% {
+                text-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(255, 77, 77, 0.8);
+            }
+        }
+
+        .word-item {
+            position: absolute;
+            transform-origin: center;
+            transition: opacity 0.5s ease, transform 0.3s ease, text-shadow 0.3s ease, z-index 0s;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font-weight: 500;
+            will-change: transform, left, top;
+        }
+        
+        .word-item:hover {
+            transition: transform 0.2s ease, text-shadow 0.2s ease;
+                }
+        .vectorization-animation {
+            margin: 20px 0 30px 0;
+            width: 100%;
+            height: 500px;
+            background: rgba(15, 15, 26, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(123, 104, 238, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .vectorization-animation:hover {
+            box-shadow: 0 8px 25px rgba(123, 104, 238, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .vectorization-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .text-side, .vector-side {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+            height: 100%;
+            position: relative;
+        }
+
+        .text-side {
+            align-items: flex-start;
+            padding: 10px;
+            justify-content: space-between;
+        }
+
+        .text-sample {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            flex: 1;
+        }
+
+        .doc-label {
+            font-size: 0.9rem;
+            color: #7b68ee;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .document {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(24, 24, 36, 0.6);
+            border-radius: 8px;
+            border: 1px solid rgba(123, 104, 238, 0.3);
+            line-height: 1.4;
+        }
+
+        .term-freq {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .tf-term {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 4px 0;
+            background: rgba(24, 24, 36, 0.4);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            position: relative;
+            animation: pulseTerm 6s infinite;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tf-term:hover {
+            border-color: rgba(123, 104, 238, 0.5);
+            background: rgba(123, 104, 238, 0.15);
+            transform: translateX(5px);
+        }
+
+        .tf-term:nth-child(1) { animation-delay: 0s; }
+        .tf-term:nth-child(2) { animation-delay: 1.2s; }
+        .tf-term:nth-child(3) { animation-delay: 2.4s; }
+        .tf-term:nth-child(4) { animation-delay: 3.6s; }
+        .tf-term:nth-child(5) { animation-delay: 4.8s; }
+
+        @keyframes pulseTerm {
+            0%, 15%, 100% { background: rgba(24, 24, 36, 0.4); border-color: transparent; }
+            5%, 10% { background: rgba(123, 104, 238, 0.2); border-color: rgba(123, 104, 238, 0.5); }
+        }
+
+        .tf-word {
+            color: #f1fa8c;
+            font-weight: 500;
+            min-width: 60px;
+        }
+
+        .tf-process {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            flex: 1;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .tf-count {
+            background: rgba(255, 77, 77, 0.15);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .arrow-container {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            animation: pulseArrow 3s infinite;
+        }
+
+        .arrow-label {
+            margin: 0 12px;
+            color: #7b68ee;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .arrow-container i {
+            color: #7b68ee;
+            font-size: 1.3rem;
+        }
+
+        @keyframes pulseArrow {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .vector-side {
+            justify-content: flex-start;
+            padding: 15px;
+            background: rgba(24, 24, 36, 0.2);
+            border-radius: 8px;
+            border-left: 2px solid rgba(123, 104, 238, 0.3);
+        }
+
+        .vocab-header {
+            font-size: 0.9rem;
+            color: #7b68ee;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .vocab-terms {
+            font-size: 0.85rem;
+            background: rgba(24, 24, 36, 0.6);
+            padding: 10px;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 15px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            position: relative;
+        }
+
+        .matrix-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background: rgba(24, 24, 36, 0.4);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(123, 104, 238, 0.2);
+            flex: 1;
+        }
+
+        .matrix-title {
+            font-size: 0.9rem;
+            color: #ff4d4d;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .tfidf-vector {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 0 15px 0;
+            background: rgba(15, 15, 26, 0.4);
+            padding: 12px 8px;
+            border-radius: 8px;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #7b68ee rgba(15, 15, 26, 0.4);
+        }
+
+        .tfidf-vector::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .tfidf-vector::-webkit-scrollbar-track {
+            background: rgba(15, 15, 26, 0.4);
+            border-radius: 3px;
+        }
+
+        .tfidf-vector::-webkit-scrollbar-thumb {
+            background-color: #7b68ee;
+            border-radius: 3px;
+        }
+
+        .vector-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 12px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .vector-column:hover, .vector-column.highlighted {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        .vector-column.highlighted {
+            background: rgba(123, 104, 238, 0.15);
+            border-radius: 6px;
+            animation: pulseHighlight 2s infinite alternate;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <div class="header">
+    </div>
+<div class="header">
+    <div class="logo"><i class="fas fa-film"></i> MovieGenrePrediction</div>
+    <div class="slide-title">DEPURACIÓN DE DATOS</div>
+    <div class="page-number">4/5</div>
+</div>
+
+<div class="content">
+    <div class="sidebar">
+        <h2 class="sidebar-title">Flujo de Depuración de Datos</h2>
+        <div class="nav-menu">
+            <div class="nav-item" data-target="limpieza-año" onclick="scrollToSection('limpieza-año')">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Limpieza de Año</span>
+                <span class="step-number">1</span>
+            </div>
+            <div class="nav-item" data-target="limpieza-texto" onclick="scrollToSection('limpieza-texto')">
+                <i class="fas fa-broom"></i>
+                <span>Limpieza de Texto</span>
+                <span class="step-number">2</span>
+            </div>
+            <div class="nav-item" data-target="agrupacion-generos" onclick="scrollToSection('agrupacion-generos')">
+                <i class="fas fa-object-group"></i>
+                <span>Agrupación de Géneros</span>
+                <span class="step-number">3</span>
+            </div>
+            <div class="nav-item" data-target="vectorizacion" onclick="scrollToSection('vectorizacion')">
+                <i class="fas fa-vector-square"></i>
+                <span>Vectorización</span>
+                <span class="step-number">4</span>
+            </div>
+            <div class="nav-item" data-target="separacion-dataset" onclick="scrollToSection('separacion-dataset')">
+                <i class="fas fa-random"></i>
+                <span>Separación Dataset</span>
+                <span class="step-number">5</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido principal con scroll -->
+    <div class="main-content">
+        <!-- Sección de limpieza de año -->
+        <section id="limpieza-año" class="content-section">
+            <div class="process-card" style="--i: 0;">
+                <h3 class="process-card-title"><i class="fas fa-calendar-alt"></i> Limpieza de Datos de Año</h3>
+                <p>Normalizamos el campo de año para análisis temporales y extracción de patrones históricos en los géneros cinematográficos.</p>
+                
+                <div class="stat-container">
+                    <div class="stat-box">
+                        <div class="stat-value">1894</div>
+                        <div class="stat-label">Año Mínimo</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">2015</div>
+                        <div class="stat-label">Año Máximo</div>
+                    </div>
+                </div>
+                
+                <div class="code-sample" style="--i: 0;">
+<span class="comment"># Convertir campo de año a numérico</span>
+<span class="variable">df_copy</span>[<span class="string">'year'</span>] = <span class="variable">pd</span>.<span class="function">to_numeric</span>(<span class="variable">df_copy</span>[<span class="string">'year'</span>], <span class="variable">errors</span>=<span class="string">'coerce'</span>)
+
+<span class="comment"># Obtener rango de años</span>
+<span class="variable">min_year</span> = <span class="function">int</span>(<span class="variable">df_copy</span>[<span class="string">'year'</span>].<span class="function">min</span>())
+<span class="variable">max_year</span> = <span class="function">int</span>(<span class="variable">df_copy</span>[<span class="string">'year'</span>].<span class="function">max</span>())
+<span class="variable">print</span>(<span class="string">f"Rango de años: </span>{<span class="variable">min_year</span>}<span class="string"> - </span>{<span class="variable">max_year</span>}<span class="string">"</span>)
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección de limpieza de texto -->
+        <section id="limpieza-texto" class="content-section">
+            <div class="process-card" style="--i: 1;">
+                <h3 class="process-card-title"><i class="fas fa-broom"></i> Limpieza y Procesamiento de Texto</h3>
+                <p>Realizamos un procesamiento exhaustivo de los plots para mejorar la calidad de los datos textuales mediante <span class="key-concept" data-description="Proceso de reducir una palabra a su forma base o raíz">lematización</span>, <span class="key-concept" data-description="Solución de contracciones como 'don't' a 'do not'">expansión de contracciones</span> y <span class="key-concept" data-description="Eliminación de palabras comunes sin valor semántico significativo">eliminación de stopwords</span>.</p>
+                
+                <div class="stat-container">
+                    <div class="stat-box">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Longitud Mínima</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">9.408</div>
+                        <div class="stat-label">Longitud Máxima</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">749</div>
+                        <div class="stat-label">Longitud Promedio</div>
+                    </div>
+                </div>
+                
+                <div class="code-sample" style="--i: 1;">
+<span class="comment"># Función para lematizar texto</span>
+<span class="keyword">def</span> <span class="function">lemmatize_text</span>(<span class="variable">text</span>):
+<span class="variable">doc</span> = <span class="variable">nlp</span>(<span class="variable">text</span>)
+<span class="keyword">return</span> <span class="string">' '</span>.<span class="function">join</span>([<span class="variable">token</span>.<span class="variable">lemma_</span> <span class="keyword">for</span> <span class="variable">token</span> <span class="keyword">in</span> <span class="variable">doc</span> <span class="keyword">if</span> <span class="variable">token</span>.<span class="variable">lemma_</span> != <span class="string">'-PRON-'</span>])
+
+<span class="comment"># Función para expandir contracciones</span>
+<span class="keyword">def</span> <span class="function">expand_contractions</span>(<span class="variable">text</span>):
+<span class="keyword">return</span> <span class="variable">contractions</span>.<span class="function">fix</span>(<span class="variable">text</span>)
+
+<span class="comment"># Función para eliminar stopwords</span>
+<span class="keyword">def</span> <span class="function">remove_stopwords</span>(<span class="variable">text</span>):
+<span class="variable">stop_words</span> = <span class="function">set</span>(<span class="variable">stopwords</span>.<span class="function">words</span>(<span class="string">'english'</span>))
+<span class="variable">words</span> = <span class="variable">text</span>.<span class="function">split</span>()
+<span class="variable">filtered_words</span> = [<span class="variable">word</span> <span class="keyword">for</span> <span class="variable">word</span> <span class="keyword">in</span> <span class="variable">words</span> <span class="keyword">if</span> <span class="variable">word</span>.<span class="function">lower</span>() <span class="keyword">not</span> <span class="keyword">in</span> <span class="variable">stop_words</span>]
+<span class="keyword">return</span> <span class="string">' '</span>.<span class="function">join</span>(<span class="variable">filtered_words</span>)
+                </div>
+            </div>
+            
+            <!-- Sección de detección de idioma inglés -->
+            <div class="process-card" style="--i: 2;">
+                <h3 class="process-card-title"><i class="fas fa-language"></i> Filtrado por Idioma</h3>
+                <p>Aplicamos <span class="key-concept" data-description="Proceso de identificar automáticamente el idioma de un texto">detección de idioma</span> para seleccionar solo los plots en inglés, asegurando consistencia lingüística en el corpus de entrenamiento.</p>
+                
+                <div class="code-sample" style="--i: 2;">
+<span class="comment"># Función para detectar si un texto está en inglés</span>
+<span class="keyword">def</span> <span class="function">is_english</span>(<span class="variable">text</span>):
+<span class="keyword">try</span>:
+    <span class="keyword">return</span> <span class="variable">detect</span>(<span class="variable">text</span>) == <span class="string">'en'</span>
+<span class="keyword">except</span>:
+    <span class="keyword">return</span> <span class="keyword">False</span>
+
+<span class="comment"># Filtrar solo plots en inglés</span>
+<span class="variable">data</span> = <span class="variable">data</span>[<span class="variable">data</span>[<span class="string">'clean_plot'</span>].<span class="function">apply</span>(<span class="variable">is_english</span>)].<span class="function">reset_index</span>(<span class="variable">drop</span>=<span class="keyword">True</span>)
+                </div>
+            </div>
+        </section>
+<!-- Sección de agrupación de géneros -->
+<section id="agrupacion-generos" class="content-section">
+    <div class="process-card" style="--i: 0;">
+        <h3 class="process-card-title"><i class="fas fa-object-group"></i> Agrupación de Géneros</h3>
+        <p>Implementamos un algoritmo para agrupar géneros frecuentemente asociados, reduciendo la dimensionalidad del problema y mejorando la <span class="key-concept" data-description="Capacidad del modelo para aplicar lo aprendido a datos nuevos">generalización</span>.</p>
+        
+        <div class="code-sample" style="--i: 0;">
+<span class="keyword">def</span> <span class="function">group_genres</span>(<span class="variable">genre_list_str</span>):
+<span class="keyword">import</span> <span class="variable">ast</span>
+
+<span class="keyword">try</span>:
+<span class="variable">genres</span> = <span class="variable">ast</span>.<span class="function">literal_eval</span>(<span class="variable">genre_list_str</span>)
+<span class="keyword">if</span> <span class="keyword">not</span> <span class="function">isinstance</span>(<span class="variable">genres</span>, <span class="variable">list</span>):
+<span class="keyword">return</span> []
+<span class="keyword">except</span>:
+<span class="keyword">return</span> []
+
+<span class="comment"># Eliminar géneros raros</span>
+<span class="variable">genres</span> = [<span class="variable">g</span> <span class="keyword">for</span> <span class="variable">g</span> <span class="keyword">in</span> <span class="variable">genres</span> <span class="keyword">if</span> <span class="variable">g</span> <span class="keyword">not</span> <span class="keyword">in</span> {<span class="string">'News'</span>, <span class="string">'Short'</span>}]
+
+<span class="comment"># Definir grupos de géneros</span>
+<span class="variable">genre_groups</span> = {
+<span class="string">'Drama-Crime'</span>: [<span class="string">'Drama'</span>, <span class="string">'Crime'</span>],
+<span class="string">'Romance-Drama'</span>: [<span class="string">'Romance'</span>, <span class="string">'Drama'</span>],
+<span class="string">'Romance-Comedy'</span>: [<span class="string">'Romance'</span>, <span class="string">'Comedy'</span>],
+<span class="string">'Thriller-Action'</span>: [<span class="string">'Thriller'</span>, <span class="string">'Action'</span>],
+<span class="string">'Thriller-Crime'</span>: [<span class="string">'Thriller'</span>, <span class="string">'Crime'</span>],
+<span class="string">'Thriller-Mystery'</span>: [<span class="string">'Thriller'</span>, <span class="string">'Mystery'</span>],
+<span class="string">'Adventure-Action'</span>: [<span class="string">'Adventure'</span>, <span class="string">'Action'</span>],
+<span class="string">'Drama-Action'</span>: [<span class="string">'Drama'</span>, <span class="string">'Action'</span>],
+<span class="string">'Family-Comedy'</span>: [<span class="string">'Family'</span>, <span class="string">'Comedy'</span>],
+<span class="string">'Thriller-Horror'</span>: [<span class="string">'Thriller'</span>, <span class="string">'Horror'</span>],
+<span class="string">'Fantasy-SciFi'</span>: [<span class="string">'Fantasy'</span>, <span class="string">'Sci-Fi'</span>],
+<span class="string">'Music-Musical'</span>: [<span class="string">'Music'</span>, <span class="string">'Musical'</span>],
+<span class="string">'History-War'</span>: [<span class="string">'History'</span>, <span class="string">'War'</span>]
+}
+
+<span class="variable">genres_set</span> = <span class="function">set</span>(<span class="variable">genres</span>)
+<span class="variable">result</span> = <span class="function">set</span>()
+<span class="variable">used_genres</span> = <span class="function">set</span>()
+
+<span class="keyword">for</span> <span class="variable">group_name</span>, <span class="variable">members</span> <span class="keyword">in</span> <span class="variable">genre_groups</span>.<span class="function">items</span>():
+<span class="keyword">if</span> <span class="variable">genres_set</span>.<span class="function">intersection</span>(<span class="variable">members</span>):
+<span class="variable">result</span>.<span class="function">add</span>(<span class="variable">group_name</span>)
+<span class="variable">used_genres</span>.<span class="function">update</span>(<span class="variable">members</span>)
+
+<span class="variable">ungrouped</span> = <span class="variable">genres_set</span> - <span class="variable">used_genres</span>
+<span class="variable">result</span>.<span class="function">update</span>(<span class="variable">ungrouped</span>)
+
+<span class="variable">top_8</span> = {
+<span class="string">'Documentary'</span>,
+<span class="string">'Western'</span>,
+<span class="string">'History-War'</span>,
+<span class="string">'Sport'</span>,
+<span class="string">'Animation'</span>,
+<span class="string">'Film-Noir'</span>,
+<span class="string">'Thriller-Horror'</span>,
+<span class="string">'Adventure-Action'</span>
+}
+
+<span class="variable">reduced_result</span> = []
+<span class="keyword">for</span> <span class="variable">r</span> <span class="keyword">in</span> <span class="variable">result</span>:
+<span class="keyword">if</span> <span class="variable">r</span> <span class="keyword">in</span> <span class="variable">top_8</span>:
+<span class="variable">reduced_result</span>.<span class="function">append</span>(<span class="variable">r</span>)
+<span class="keyword">else</span>:
+<span class="variable">reduced_result</span>.<span class="function">append</span>(<span class="string">'Other'</span>)
+
+<span class="keyword">return</span> <span class="function">list</span>(<span class="function">set</span>(<span class="variable">reduced_result</span>))
+        </div>
+    </div>
+    
+    <!-- Sección de grupos de géneros -->
+    <div class="grouping-section">
+        <h3 class="process-card-title"><i class="fas fa-object-group"></i> Agrupaciones de Géneros Identificadas</h3>
+        <p>Basándonos en el análisis de co-ocurrencia, identificamos estos grupos de géneros que frecuentemente aparecen juntos:</p>
+        
+        <div class="genre-groups">
+            <div class="group-tag" style="--i: 0;" data-combo="35%">Adventure-Action</div>
+            <div class="group-tag" style="--i: 1;" data-combo="30%">Animation</div>
+            <div class="group-tag" style="--i: 2;" data-combo="27%">Documentary</div>
+            <div class="group-tag" style="--i: 3;" data-combo="25%">Film-Noir</div>
+            <div class="group-tag" style="--i: 4;" data-combo="20%">History-War</div>
+            <div class="group-tag" style="--i: 5;" data-combo="18%">Other</div>
+            <div class="group-tag" style="--i: 6;" data-combo="15%">Sport</div>
+            <div class="group-tag" style="--i: 7;" data-combo="13%">Thriller-Horror</div>
+            <div class="group-tag" style="--i: 8;" data-combo="12%">Western</div>
+        </div>
+    </div>
+</section>
+
+    <!-- Sección de análisis de coocurrencia -->
+    <div class="heatmap">
+        <h3 class="heatmap-title"><i class="fas fa-th"></i> Análisis de Co-ocurrencia entre Géneros</h3>
+        <div class="heatmap-container">
+            <div class="heatmap-grid" id="heatmap-grid">
+                <!-- Las celdas se generarán con JavaScript -->
+            </div>
+        </div>
+        <p>Utilizamos análisis de <span class="key-concept" data-description="Frecuencia con que dos géneros aparecen juntos en la misma película">co-ocurrencia</span> para identificar patrones de agrupación natural entre géneros cinematográficos. Este análisis permite identificar combinaciones frecuentes como Drama-Romance o Thriller-Horror.</p>
+    </div>
+
+<!-- Gráfico de barras de géneros -->
+<div class="heatmap">
+    <h3 class="heatmap-title"><i class="fas fa-chart-bar"></i> Distribución de Géneros Agrupados</h3>
+    <div class="heatmap-container">
+        <div class="chart-container" style="width: 100%; height: 100%;">
+            <div id="genreBarChart" style="width: 100%; height: 100%;"></div>
+        </div>
+    </div>
+    <p>Distribución de películas por género tras el proceso de agrupación. La categoría "Other" incluye combinaciones menos frecuentes y géneros individuales.</p>
+</div>
+
+<!-- Nube de Palabras: Visualización de términos -->
+<!-- Nube de Palabras: Visualización de términos -->
+<div class="heatmap">
+    <h3 class="heatmap-title"><i class="fas fa-cloud"></i> Términos Frecuentes en Sinopsis</h3>
+    <div class="heatmap-container">
+        <div id="wordCloud" style="width: 100%; height: 300px; position: relative; overflow: hidden; background-color: rgba(15, 15, 26, 0.4); border-radius: 8px;"></div>
+    </div>
+    <p>Términos más representativos extraídos de las sinopsis después del procesamiento de texto. El tamaño refleja la frecuencia de aparición en el corpus.</p>
+</div>
+
+<!-- Sección de vectorización -->
+<section id="vectorizacion" class="content-section">
+    <div class="process-card" style="--i: 1;">
+        <h3 class="process-card-title"><i class="fas fa-vector-square"></i> Vectorización del Texto</h3>
+        <p>Transformamos el texto limpio en representaciones numéricas usando <span class="key-concept" data-description="Term Frequency-Inverse Document Frequency: técnica que pondera la importancia de las palabras">TF-IDF</span> con n-gramas para capturar contexto semántico.</p>
+        
+        <div class="code-sample" style="--i: 1;">
+<span class="comment"># Configurar vectorizador TF-IDF</span>
+<span class="variable">vect</span> = <span class="variable">TfidfVectorizer</span>(
+<span class="variable">ngram_range</span>=(<span class="number">1</span>, <span class="number">3</span>),  <span class="comment"># Incluir unigramas, bigramas y trigramas</span>
+<span class="variable">max_features</span>=<span class="number">1000</span>,    <span class="comment"># Limitar a 1000 características</span>
+<span class="variable">min_df</span>=<span class="number">50</span>,           <span class="comment"># Ignorar términos poco frecuentes</span>
+<span class="variable">sublinear_tf</span>=<span class="keyword">True</span>,    <span class="comment"># Escala sublinear para term frequency</span>
+<span class="variable">norm</span>=<span class="string">'l2'</span>             <span class="comment"># Normalización L2 para cada vector</span>
+)
+<span class="comment"># Aplicar vectorización al dataset limpio</span>
+<span class="variable">X_dtm</span> = <span class="variable">vect</span>.<span class="function">fit_transform</span>(<span class="variable">dataTraining</span>[<span class="string">'clean_plot'</span>])
+<span class="variable">X_val</span> = <span class="variable">vect</span>.<span class="function">transform</span>(<span class="variable">dataTesting</span>[<span class="string">'clean_plot'</span>])
+        </div>
+    </div>
+    <div class="process-card" style="--i: 2;">
+        <h3 class="process-card-title"><i class="fas fa-vector-square"></i> Visualización del Proceso TF-IDF</h3>
+        <p>El proceso de TF-IDF convierte texto en vectores numéricos, donde cada dimensión corresponde a un término del vocabulario y cada valor refleja la importancia del término en el documento.</p>
+    
+        <div class="vectorization-animation">
+            <div class="vectorization-container">
+                <div class="text-side">
+                    <div class="text-sample">
+                        <span class="doc-label">Documento original:</span>
+                        <span class="document">"Man finds love after murder investigation..."</span>
+                        
+                        <span class="doc-label">Procesamiento:</span>
+                        <div class="term-freq">
+                            <div class="tf-term"><span class="tf-word">man</span> <span class="tf-process">→ tokenización →</span> <span class="tf-count">TF: 1</span></div>
+                            <div class="tf-term"><span class="tf-word">find</span> <span class="tf-process">→ lematización →</span> <span class="tf-count">TF: 1</span></div>
+                            <div class="tf-term"><span class="tf-word">love</span> <span class="tf-process">→ tokenización →</span> <span class="tf-count">TF: 1</span></div>
+                            <div class="tf-term"><span class="tf-word">murder</span> <span class="tf-process">→ tokenización →</span> <span class="tf-count">TF: 1</span></div>
+                            <div class="tf-term"><span class="tf-word">investigation</span> <span class="tf-process">→ tokenización →</span> <span class="tf-count">TF: 1</span></div>
+                        </div>
+                    </div>
+                    <div class="arrow-container">
+                        <i class="fas fa-arrow-right"></i>
+                        <span class="arrow-label">TF-IDF</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+                <div class="vector-side">
+                    <div class="vocab-header">Vocabulario del corpus (max_features=1000):</div>
+                    <div class="vocab-terms">[... 'action', 'adventure', ... 'find', ... 'love', ... 'man', ... 'murder', ...]</div>
+                    
+                    <div class="matrix-container">
+                        <div class="matrix-title">Vector disperso TF-IDF:</div>
+                        <div class="tfidf-vector">
+                            <div class="vector-column">
+                                <span class="vector-index">0</span>
+                                <span class="matrix-cell">0.00</span>
+                                <span class="term-marker">action</span>
+                            </div>
+                            <div class="vector-column">
+                                <span class="vector-index">1</span>
+                                <span class="matrix-cell">0.00</span>
+                                <span class="term-marker">adventure</span>
+                            </div>
+                            <div class="vector-column highlighted">
+                                <span class="vector-index">217</span>
+                                <span class="matrix-cell">0.41</span>
+                                <span class="term-marker">find</span>
+                            </div>
+                            <div class="vector-column highlighted">
+                                <span class="vector-index">412</span>
+                                <span class="matrix-cell">0.38</span>
+                                <span class="term-marker">love</span>
+                            </div>
+                            <div class="vector-column highlighted">
+                                <span class="vector-index">489</span>
+                                <span class="matrix-cell">0.35</span>
+                                <span class="term-marker">man</span>
+                            </div>
+                            <div class="vector-column highlighted">
+                                <span class="vector-index">623</span>
+                                <span class="matrix-cell">0.67</span>
+                                <span class="term-marker">murder</span>
+                            </div>
+                            <div class="vector-column">
+                                <span class="vector-index">999</span>
+                                <span class="matrix-cell">0.00</span>
+                                <span class="term-marker">...</span>
+                            </div>
+                        </div>
+                        <div class="idf-explanation">
+                            <div class="idf-title">Ponderación IDF:</div>
+                            <div class="idf-detail">• Términos comunes (como "movie") → Valor IDF bajo</div>
+                            <div class="idf-detail">• Términos raros (como "murder") → Valor IDF alto</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Separación de datasets -->
+<section id="separacion-dataset" class="content-section">
+    <div class="process-card" style="--i: 2;">
+        <h3 class="process-card-title"><i class="fas fa-random"></i> Separación de Datasets</h3>
+        <p>Dividimos los datos procesados en conjuntos de entrenamiento, validación y prueba, utilizando un random_state de 42 para garantizar la reproducibilidad y una evaluación imparcial del modelo.</p>
+        
+        <div class="dataset-split">
+            <div class="dataset-box">
+                <div class="dataset-percentage">80%</div>
+                <div class="dataset-title">Entrenamiento</div>
+                <div class="dataset-content">
+                    <p>• Proporción de 80% de la data</p>
+                    <p>• Utilizado para ajustar los parámetros del modelo</p>
+                    <p>• Contiene vectores TF-IDF de los plots procesados</p>
+                    <p>• Etiquetas multi-hot encoding de géneros agrupados</p>
+                </div>
+            </div>
+            <div class="dataset-box">
+                <div class="dataset-percentage">20%</div>
+                <div class="dataset-title">Prueba</div>
+                <div class="dataset-content">
+                    <p>• Proporción de 20% de la data</p>
+                    <p>• Evaluación durante desarrollo del modelo</p>
+                    <p>• Ajuste de hiperparámetros</p>
+                    <p>• Prevención de sobreajuste</p>
+                </div>
+            </div>
+            <div class="dataset-box">
+                <div class="dataset-percentage"></div>
+                <div class="dataset-title">Validación</div>
+                <div class="dataset-content">
+                    <p>• Evaluación final del rendimiento</p>
+                    <p>• Nunca utilizado durante el entrenamiento</p>
+                    <p>• Información separada desde un inicio del dataset</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="navigation">
+    <a href="slide3.html" class="nav-button"><i class="fas fa-arrow-left"></i> Anterior</a>
+    <a href="slide5.html" class="nav-button">Siguiente <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+
+<script>
+
+    const cursorFollower = document.getElementById('cursorFollower');
+if (cursorFollower) {
+  // código que manipula cursorFollower
+}
+
+
+const heatmapData = [
+  [1885, 157, 10,   7,   179, 1859,  55,  809,  81],  // Adventure-Action
+  [157, 257,  3,   0,     7,  253,   6,   10,   4],   // Animation
+  [ 10,   3, 408,  0,    63,  204,  28,    9,   0],   // Documentary
+  [  7,   0,   0, 168,    3,  168,   3,  109,   0],   // Film-Noir
+  [179,   7,  63,  3,   529,  492,  11,   85,  29],   // History-War
+  [1859,253, 204,168,  492, 7454, 245, 2392, 176],   // Other
+  [ 55,   6,  28,  3,    11,  245, 261,    6,   3],   // Sport
+  [809,  10,   9,109,    85, 2392,  6,  2513,  20],   // Thriller-Horror
+  [ 81,   4,   0,  0,    29,  176,   3,   20, 236]    // Western
+];
+
+
+const genres = [
+  'Adventure-Action', 'Animation', 'Documentary', 'Film-Noir',
+  'History-War', 'Other', 'Sport', 'Thriller-Horror', 'Western'
+];
+
+function scrollToSection(sectionId) {
+const section = document.getElementById(sectionId);
+if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+    
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    document.querySelector(`.nav-item[data-target="${sectionId}"]`).classList.add('active');
+}
+}
+
+const heatmapGrid = document.getElementById('heatmap-grid');
+
+
+if (heatmapGrid) {
+    // Esquina superior izquierda vacía
+    const corner = document.createElement('div');
+    heatmapGrid.appendChild(corner);
+
+    // Etiquetas horizontales (X)
+    genres.forEach(genre => {
+        const labelX = document.createElement('div');
+        labelX.className = 'heatmap-label-x';
+        labelX.textContent = genre;
+        heatmapGrid.appendChild(labelX);
+    });
+
+    for (let i = 0; i < genres.length; i++) {
+        // Etiqueta vertical (Y)
+        const labelY = document.createElement('div');
+        labelY.className = 'heatmap-label-y';
+        labelY.textContent = genres[i];
+        heatmapGrid.appendChild(labelY);
+    
+        for (let j = 0; j < genres.length; j++) {
+            const cell = document.createElement('div');
+            cell.className = 'heatmap-cell';
+    
+            const value = heatmapData[i][j];
+            const max = 7454; 
+            const ratio = value / max;
+    
+            const r = Math.floor(130 + 125 * ratio); 
+            const g = Math.floor(70 + 20 * (1 - ratio)); 
+            const b = Math.floor(200 + 55 * (1 - ratio));
+    
+            const backgroundColor = `rgba(${r}, ${g}, ${b}, 0.85)`;
+    
+            cell.style.backgroundColor = backgroundColor;
+    
+            cell.textContent = value;
+            cell.style.color = '#fff'; 
+    
+            heatmapGrid.appendChild(cell);
+        }
+    }
+}
+
+document.querySelectorAll('.process-card, .heatmap, .grouping-section, .flow-diagram, .dataset-box').forEach(card => {
+card.addEventListener('mouseover', function() {
+    this.style.transform = 'translateY(-5px) scale(1.02)';
+    this.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.4)';
+});
+
+card.addEventListener('mouseout', function() {
+    this.style.transform = '';
+    this.style.boxShadow = '';
+});
+});
+document.querySelectorAll('.group-tag').forEach(tag => {
+    tag.addEventListener('click', function() {
+        document.querySelectorAll('.group-tag').forEach(t => {
+            t.style.background = 'linear-gradient(135deg, rgba(123, 104, 238, 0.2), rgba(123, 104, 238, 0.2))';
+            t.style.color = '#fff';
+        });
+        this.style.background = 'linear-gradient(135deg, #ff4d4d, #7b68ee)';
+        this.style.color = '#fff';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const genreData = [
+        {genre: 'Other', count: 7454},
+        {genre: 'Thriller-Horror', count: 2513},
+        {genre: 'Adventure-Action', count: 1885},
+        {genre: 'History-War', count: 529},
+        {genre: 'Documentary', count: 408},
+        {genre: 'Sport', count: 261},
+        {genre: 'Animation', count: 257},
+        {genre: 'Western', count: 236},
+        {genre: 'Film-Noir', count: 168}
+    ];
+
+    const chartContainer = document.getElementById('genreBarChart');
+    if (chartContainer) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+        svg.setAttribute('viewBox', '0 0 800 350');
+        chartContainer.appendChild(svg);
+
+        const margin = {top: 20, right: 30, bottom: 90, left: 60};
+        const width = 800 - margin.left - margin.right;
+        const height = 350 - margin.top - margin.bottom;
+
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('transform', `translate(${margin.left},${margin.top})`);
+        svg.appendChild(g);
+
+        const x = genreData.map(d => d.genre);
+        const xScale = index => index * (width / genreData.length);
+        
+        const maxCount = Math.max(...genreData.map(d => d.count));
+        const yScale = count => height - (count / maxCount * height);
+
+   
+        const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        xAxis.setAttribute('transform', `translate(0,${height})`);
+        g.appendChild(xAxis);
+
+        const xAxisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        xAxisLine.setAttribute('x1', 0);
+        xAxisLine.setAttribute('y1', 0);
+        xAxisLine.setAttribute('x2', width);
+        xAxisLine.setAttribute('y2', 0);
+        xAxisLine.setAttribute('stroke', '#ffffff');
+        xAxisLine.setAttribute('stroke-width', 1);
+        xAxis.appendChild(xAxisLine);
+
+        genreData.forEach((d, i) => {
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', xScale(i) + width / genreData.length / 2);
+            text.setAttribute('y', 25);
+            text.setAttribute('text-anchor', 'end');
+            text.setAttribute('transform', `rotate(-45, ${xScale(i) + width / genreData.length / 2}, 25)`);
+            text.textContent = d.genre;
+            text.style.fill = '#ffffff';
+            text.style.fontSize = '12px';
+            xAxis.appendChild(text);
+        });
+
+        const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.appendChild(yAxis);
+
+        const yAxisLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        yAxisLine.setAttribute('x1', 0);
+        yAxisLine.setAttribute('y1', 0);
+        yAxisLine.setAttribute('x2', 0);
+        yAxisLine.setAttribute('y2', height);
+        yAxisLine.setAttribute('stroke', '#ffffff');
+        yAxisLine.setAttribute('stroke-width', 1);
+        yAxis.appendChild(yAxisLine);
+
+        const yTicks = 5;
+        for (let i = 0; i <= yTicks; i++) {
+            const tickValue = Math.round(maxCount * i / yTicks);
+            
+            const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            gridLine.setAttribute('x1', 0);
+            gridLine.setAttribute('y1', yScale(tickValue));
+            gridLine.setAttribute('x2', width);
+            gridLine.setAttribute('y2', yScale(tickValue));
+            gridLine.setAttribute('stroke', 'rgba(255, 255, 255, 0.1)');
+            gridLine.setAttribute('stroke-width', 1);
+            yAxis.appendChild(gridLine);
+            
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', -10);
+            text.setAttribute('y', yScale(tickValue));
+            text.setAttribute('dy', '0.32em');
+            text.setAttribute('text-anchor', 'end');
+            text.textContent = tickValue.toLocaleString();
+            text.style.fill = '#ffffff';
+            text.style.fontSize = '12px';
+            yAxis.appendChild(text);
+        }
+
+        genreData.forEach((d, i) => {
+            const barWidth = width / genreData.length * 0.8;
+            const barHeight = height - yScale(d.count);
+            const barX = xScale(i) + width / genreData.length * 0.1;
+            const barY = yScale(d.count);
+            
+            const gradientId = `barGradient-${i}`;
+            const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+            gradient.setAttribute('id', gradientId);
+            gradient.setAttribute('x1', '0%');
+            gradient.setAttribute('y1', '0%');
+            gradient.setAttribute('x2', '0%');
+            gradient.setAttribute('y2', '100%');
+            
+            const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop1.setAttribute('offset', '0%');
+            stop1.setAttribute('stop-color', '#7b68ee');
+            gradient.appendChild(stop1);
+            
+            const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+            stop2.setAttribute('offset', '100%');
+            stop2.setAttribute('stop-color', '#ff4d4d');
+            gradient.appendChild(stop2);
+            
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs.appendChild(gradient);
+            svg.appendChild(defs);
+            
+            const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+            rect.setAttribute('x', barX);
+            rect.setAttribute('y', barY);
+            rect.setAttribute('width', barWidth);
+            rect.setAttribute('height', barHeight);
+            rect.setAttribute('rx', 4);
+            rect.setAttribute('ry', 4);
+            rect.setAttribute('fill', `url(#${gradientId})`);
+            rect.setAttribute('stroke', 'rgba(255, 255, 255, 0.1)');
+            rect.setAttribute('stroke-width', 1);
+            
+            const animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animate.setAttribute('attributeName', 'height');
+            animate.setAttribute('from', '0');
+            animate.setAttribute('to', barHeight);
+            animate.setAttribute('dur', '1s');
+            animate.setAttribute('begin', `${i * 0.1}s`);
+            animate.setAttribute('fill', 'freeze');
+            rect.appendChild(animate);
+            
+            const animateY = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animateY.setAttribute('attributeName', 'y');
+            animateY.setAttribute('from', height);
+            animateY.setAttribute('to', barY);
+            animateY.setAttribute('dur', '1s');
+            animateY.setAttribute('begin', `${i * 0.1}s`);
+            animateY.setAttribute('fill', 'freeze');
+            rect.appendChild(animateY);
+            
+            g.appendChild(rect);
+            
+            const valueText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            valueText.setAttribute('x', barX + barWidth / 2);
+            valueText.setAttribute('y', barY - 10);
+            valueText.setAttribute('text-anchor', 'middle');
+            valueText.textContent = d.count.toLocaleString();
+            valueText.style.fill = '#ffffff';
+            valueText.style.fontSize = '12px';
+            valueText.style.fontWeight = 'bold';
+            valueText.style.opacity = '0';
+            
+            const animateText = document.createElementNS('http://www.w3.org/2000/svg', 'animate');
+            animateText.setAttribute('attributeName', 'opacity');
+            animateText.setAttribute('from', '0');
+            animateText.setAttribute('to', '1');
+            animateText.setAttribute('dur', '0.5s');
+            animateText.setAttribute('begin', `${i * 0.1 + 0.5}s`);
+            animateText.setAttribute('fill', 'freeze');
+            valueText.appendChild(animateText);
+            
+            g.appendChild(valueText);
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const wordCloudContainer = document.getElementById('wordCloud');
+    if (!wordCloudContainer) return;
+
+    const words = [
+        {text: "find", size: 25, group: 1},
+        {text: "man", size: 23, group: 1},
+        {text: "murder", size: 26, group: 1},
+        {text: "become", size: 25, group: 1},
+        {text: "take", size: 22, group: 1},
+        {text: "kill", size: 24, group: 1},
+        {text: "police", size: 23, group: 1},
+        {text: "see", size: 21, group: 1},
+        {text: "meet", size: 23, group: 1},
+        {text: "love", size: 26, group: 1},
+        {text: "want", size: 24, group: 1},
+        {text: "help", size: 23, group: 1},
+        {text: "make", size: 21, group: 1},
+        {text: "father", size: 22, group: 1},
+        {text: "work", size: 24, group: 1},
+        {text: "know", size: 22, group: 1},
+        {text: "wife", size: 21, group: 1},
+        {text: "team", size: 25, group: 1},
+        {text: "win", size: 23, group: 1},
+        {text: "life", size: 26, group: 1},
+        {text: "game", size: 21, group: 1},
+        {text: "war", size: 24, group: 1},
+        {text: "one", size: 22, group: 1},
+        {text: "film", size: 23, group: 1},
+        {text: "world", size: 25, group: 1},
+        {text: "human", size: 21, group: 1}
+    ];
+
+    const width = wordCloudContainer.offsetWidth;
+    const height = wordCloudContainer.offsetHeight;
+    
+    const colors = [
+        "#7b68ee", "#8a7cef", "#9990f0", "#a8a4f1", "#b7b8f3", 
+        "#c6ccf4", "#d5e0f5", "#e3f4f7", "#f2f8f8", "#fff9f9", 
+        "#ffebeb", "#ffdddd", "#ffcfcf", "#ffc1c1", "#ffb3b3", 
+        "#ffa5a5", "#ff9797", "#ff8989", "#ff7b7b", "#ff6d6d", 
+        "#ff5f5f", "#ff5151", "#ff4d4d"
+    ];
+
+    wordCloudContainer.innerHTML = '';
+
+    words.forEach((word, i) => {
+        const x = Math.random() * (width - word.size * 2) + word.size;
+        const y = Math.random() * (height - word.size * 2) + word.size;
+        
+        const speedX = (Math.random() - 0.5) * 1.5;
+        const speedY = (Math.random() - 0.5) * 1.5;
+        
+        const colorIndex = Math.floor(word.size / 30 * (colors.length - 1));
+        const color = colors[colorIndex];
+        
+        const wordEl = document.createElement('div');
+        wordEl.className = 'word-item';
+        wordEl.textContent = word.text;
+        wordEl.style.fontSize = `${word.size}px`;
+        wordEl.style.color = color;
+        wordEl.style.left = `${x}px`;
+        wordEl.style.top = `${y}px`;
+        wordEl.style.opacity = '0';
+        wordEl.style.transform = 'scale(0.5)';
+        
+        wordEl.dataset.x = x;
+        wordEl.dataset.y = y;
+        wordEl.dataset.speedX = speedX;
+        wordEl.dataset.speedY = speedY;
+        wordEl.dataset.size = word.size;
+        
+        const rotation = (Math.random() * 30 - 15);
+        wordEl.style.transform += ` rotate(${rotation}deg)`;
+        wordEl.dataset.rotation = rotation;
+        
+        setTimeout(() => {
+            wordEl.style.opacity = '1';
+            wordEl.style.transform = `scale(1) rotate(${rotation}deg)`;
+        }, i * 60);
+        
+        wordEl.addEventListener('mouseover', () => {
+            wordEl.dataset.paused = 'true';
+            
+            wordEl.style.transform = `scale(1.3) rotate(${rotation}deg)`;
+            wordEl.style.zIndex = '100';
+            wordEl.style.textShadow = '0 0 15px rgba(123, 104, 238, 0.8), 0 0 25px rgba(123, 104, 238, 0.5)';
+            
+            const otherWords = document.querySelectorAll('.word-item:not(:hover)');
+            otherWords.forEach(other => {
+                other.style.opacity = '0.2';
+            });
+        });
+        
+        wordEl.addEventListener('mouseout', () => {
+            wordEl.dataset.paused = 'false';
+            
+            wordEl.style.zIndex = '';
+            wordEl.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.3)';
+            
+            const otherWords = document.querySelectorAll('.word-item');
+            otherWords.forEach(other => {
+                other.style.opacity = '1';
+            });
+        });
+        
+        wordCloudContainer.appendChild(wordEl);
+    });
+    
+    function animateAllWords() {
+        const wordElements = document.querySelectorAll('.word-item');
+        
+        wordElements.forEach(el => {
+            if (el.dataset.paused === 'true') return;
+            
+            let x = parseFloat(el.dataset.x);
+            let y = parseFloat(el.dataset.y);
+            let speedX = parseFloat(el.dataset.speedX);
+            let speedY = parseFloat(el.dataset.speedY);
+            let size = parseFloat(el.dataset.size);
+            let rotation = parseFloat(el.dataset.rotation);
+            
+            x += speedX;
+            y += speedY;
+            
+            if (x <= size || x >= width - size) {
+                speedX = -speedX;
+                speedX *= 0.9 + Math.random() * 0.2;
+            }
+            
+            if (y <= size || y >= height - size) {
+                speedY = -speedY;
+                speedY *= 0.9 + Math.random() * 0.2;
+            }
+            
+            el.dataset.x = x;
+            el.dataset.y = y;
+            el.dataset.speedX = speedX;
+            el.dataset.speedY = speedY;
+            
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.style.transform = `scale(1) rotate(${rotation}deg)`;
+        });
+        
+        requestAnimationFrame(animateAllWords);
+    }
+    
+    setTimeout(animateAllWords, 1000);
+});
+// Mejoras de interactividad para la animación TF-IDF
+document.addEventListener('DOMContentLoaded', function() {
+    const vectorizationAnimation = document.querySelector('.vectorization-animation');
+    if (!vectorizationAnimation) return;
+
+    // Sincronizar resaltado entre términos y celdas
+    const tfTerms = vectorizationAnimation.querySelectorAll('.tf-term');
+    const vectorColumns = vectorizationAnimation.querySelectorAll('.vector-column.highlighted');
+    
+    for (let i = 0; i < tfTerms.length; i++) {
+        if (i >= vectorColumns.length) continue;
+        
+        tfTerms[i].addEventListener('mouseover', () => {
+            // Destacar el término
+            tfTerms.forEach(term => term.style.opacity = '0.5');
+            tfTerms[i].style.opacity = '1';
+            
+            // Destacar la columna correspondiente
+            vectorColumns.forEach(col => {
+                col.style.transform = '';
+                col.style.background = '';
+            });
+            vectorColumns[i].style.transform = 'translateY(-5px) scale(1.05)';
+            vectorColumns[i].style.background = 'rgba(123, 104, 238, 0.3)';
+            
+            // Efecto de flujo de datos
+            const arrow = vectorizationAnimation.querySelector('.arrow-container');
+            arrow.style.animation = 'none';
+            setTimeout(() => {
+                arrow.style.animation = 'pulseArrow 1s infinite';
+            }, 10);
+        });
+        
+        tfTerms[i].addEventListener('mouseout', () => {
+            // Restaurar todos los elementos
+            tfTerms.forEach(term => term.style.opacity = '');
+            vectorColumns.forEach(col => {
+                col.style.transform = '';
+                col.style.background = '';
+            });
+        });
+        
+        // También hacerlo al revés: de columna a término
+        vectorColumns[i].addEventListener('mouseover', () => {
+            tfTerms.forEach(term => term.style.opacity = '0.5');
+            tfTerms[i].style.opacity = '1';
+            tfTerms[i].style.transform = 'translateX(5px)';
+            tfTerms[i].style.background = 'rgba(123, 104, 238, 0.2)';
+            tfTerms[i].style.borderColor = 'rgba(123, 104, 238, 0.5)';
+        });
+        
+        vectorColumns[i].addEventListener('mouseout', () => {
+            tfTerms.forEach(term => {
+                term.style.opacity = '';
+                term.style.transform = '';
+                term.style.background = '';
+                term.style.borderColor = '';
+            });
+        });
+    }
+    
+    // Pausar/reanudar animación al pasar el ratón
+    vectorizationAnimation.addEventListener('mouseover', function() {
+        this.querySelectorAll('.tf-term, .vector-column.highlighted').forEach(el => {
+            el.style.animationPlayState = 'paused';
+        });
+    });
+
+    vectorizationAnimation.addEventListener('mouseout', function() {
+        this.querySelectorAll('.tf-term, .vector-column.highlighted').forEach(el => {
+            el.style.animationPlayState = 'running';
+        });
+    });
+});
+
+document.addEventListener('mousemove', (e) => {
+    const cursorFollower = document.getElementById('cursorFollower');
+    if (cursorFollower) {
+        const x = e.clientX;
+        const y = e.clientY;
+        
+        cursorFollower.style.left = `${x}px`;
+        cursorFollower.style.top = `${y}px`;
+    }
+});
+
+</script>
+</body>
+</html>
