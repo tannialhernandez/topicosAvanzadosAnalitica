@@ -166,4 +166,7 @@
 ###  DIAGRAMA EXPLICATIVO:
 
 ![alt text](./pantallazo/image.png)
+
+###  RESULTADOS CLAVE DEL PROYECTO:
+
 ![alt text](./pantallazo/image-1.png)
