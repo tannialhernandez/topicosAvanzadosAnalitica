@@ -36,7 +36,6 @@
 
 ### 2.2 Modelo Convolucional (Tannia)
 - ✅ **GCN**: Precisión 90.57% en test, convergencia rápida en época 57
-- ✅ **REGRESIÓN LOGISTICA** : Precisión 90.5% validación, 91% test.
 - ✅ Arquitectura: 2 capas convolucionales con 64 unidades, dropout 0.637
 - ✅ Fine-tuning exitoso de hiperparámetros
 
