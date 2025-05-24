@@ -1,22 +1,26 @@
 # Flujo de Trabajo Completado - Proyecto de Análisis de Grafos
 
 ## Fase 1: Preparación y Fundamentos
-**Responsable: Luis** - ✅ COMPLETADA
+**Responsables: Luis y Miguel** - ✅ COMPLETADA
 
-### 1.1 Preparación de Datos
+### 1.1 Preparación de Datos (Luis)
 - ✅ Limpieza y preprocesamiento del dataset Amazon Computers
 - ✅ Validación de la calidad de los datos (13,752 nodos, 491,722 aristas)
 - ✅ Estructura inicial del grafo
 
-### 1.2 Análisis Exploratorio
+### 1.2 Análisis Exploratorio (Luis)
 - ✅ Análisis estadístico descriptivo completo
 - ✅ Visualización de la estructura del grafo
 - ✅ Identificación de patrones: densidad 0.00260028, clustering 0.344126
 - ✅ Métricas del grafo: grado promedio 35.76, diámetro ~10, caminos cortos 3.39
 
-### 1.3 Construcción de Representaciones Base
+### 1.3 Filtrado de Datos (Miguel)
+- ✅ **Filtrado por Importancia**: Implementación del filtrado con 80% de conexiones
+- ✅ **Optimización del Dataset**: Reducción de 13,752 a 5,620 nodos manteniendo información clave
+- ✅ **Mejora de Densidad**: De 0.00260028 a 0.010351
+
+### 1.4 Construcción de Representaciones Base (Luis)
 - ✅ **Generación de Node2Vec**: Embeddings 128D con parámetros óptimos (p=0.257, q=3.943)
-- ✅ Fine-tuning exitoso de hiperparámetros
 - ✅ **Matriz de Adyacencia**: Representación 5,620×5,620 para grafos filtrados
 - ✅ **Etiquetas Sintéticas**: Generación exitosa por comunidades, clustering y grado
 
@@ -27,17 +31,16 @@
 
 ### 2.1 Modelos de Clasificación Estándar (Luis)
 - ✅ **MLP**: Precisión 91.10% en test, arquitectura 3 capas×128 neuronas
-- ✅ **GCN**: Precisión 90.57% en test, convergencia rápida en época 57
-- ✅ Evaluación y optimización de hiperparámetros con Optuna
-- ✅ Fine-tuning exitoso de hiperparámetros
-
-### 2.2 Modelo Avanzado (Tannia)
 - ✅ **GAT**: Mejor modelo con 91.10% en test, 93.42% en validación
-- ✅ Arquitectura: 3 capas, 8 cabezas de atención, dropout 0.163
+- ✅ Evaluación y optimización de hiperparámetros con Optuna
+
+### 2.2 Modelo Convolucional (Tannia)
+- ✅ **GCN**: Precisión 90.57% en test, convergencia rápida en época 57
+- ✅ Arquitectura: 2 capas convolucionales con 64 unidades, dropout 0.637
 - ✅ Fine-tuning exitoso de hiperparámetros
 
 ### 2.3 Análisis Comparativo (Luis)
-- ✅ **Comparativa completa**: Los 3 modelos >90% precisión
+- ✅ **Comparativa de Rendimientos**: Evaluación entre MLP, GCN y GAT
 - ✅ Métricas detalladas: accuracy, precision, recall, F1-score
 - ✅ Análisis de convergencia y gaps de overfitting
 
@@ -68,11 +71,6 @@
 - ✅ **VGAE**: Mejor rendimiento con AUC=92.83%, AP=92.23%
 - ✅ Distribuciones latentes μ y σ implementadas correctamente
 
-### 4.3 Filtrado y Optimización de Datos (Miguel)
-- ✅ **Filtrado por Importancia**: Implementación del filtrado con 80% de conexiones
-- ✅ **Optimización del Dataset**: Reducción de 13,752 a 5,620 nodos manteniendo información clave
-- ✅ **Validación del Impacto**: Mejora en densidad de 0.00260028 a 0.010351
-
 ---
 
 ## Fase 5: Integración y Documentación
@@ -94,32 +92,31 @@
 
 | Semana | Fase | Actividades Principales |
 |--------|------|------------------------|
-| 1 | Fase 1-2 | Preparación datos, análisis exploratorio,filtrado de datos, Node2Vec |
-| 2 | Fase 2-3 | MLP, GCN, GAT, comparativas, clasificación por producto |
-| 3 | Fase 4-5 | similitud, Autoencoders, Trabajo escrito, presentación |
+| 1 | Fase 1-2 | Preparación datos, análisis exploratorio,filtrado de datos, Node2Vec, MLP, GCN, GAT |
+| 2 | Fase 2-3 | comparativas, clasificación por producto, similitud |
+| 3 | Fase 4-5 | Autoencoders, Trabajo escrito, presentación |
 
 ---
 
 ## Dependencias entre Tareas
 
 ### Rutas Críticas:
-1. **Datos Base → Filtrado 80% → VGAE**
-1. **Preparación → Node2Vec → Modelos de Clasificación → Comparativas**
+1. **Datos Base → Filtrado 80%**
+2. **Preparación → Node2Vec → Modelos de Clasificación → Comparativas**
 3. **Matrix Adyacencia → GCN/GAT → Sistema Híbrido**
 
 ### Tareas Paralelas:
-- Mientras Luis desarrolla MLP/GAT, Tannia puede trabajó en GCN
-- Miguel puede comenzó con Encoder Simple usando resultados de Node2Vec
-- La escritura del documento inició desde la Fase 2
+- Mientras Luis desarrolló MLP/GCN, Tannia trabajó en GAT
+- Luis comenzó con similitud directa, mientras Miguel iniciaba autoencoder simple
+- La escritura del documento inicia desde la Fase 2
 
 ---
 
 ## Entregables por Fase
 
 ### Fase 1 - Fundamentos
-- [x] Dataset limpio y preprocesado
-- [x] Reporte de análisis exploratorio 
-- [x] Dataset filtrado (80% aristas) 
+- [x] Reporte de análisis exploratorio  
+- [x] Dataset filtrado (80% aristas)
 - [x] Embeddings Node2Vec
 - [x] Matriz de adyacencia optimizada
 - [x] Etiquetas sintéticas validadas
@@ -143,9 +140,9 @@
 ### Fase 5 - Documentación
 - [x] Trabajo escrito completo
 - [x] Presentación preparada
-- [x] Código documentado y versionado
 
 ---
+
 ## Puntos de Control y Revisión
 
 ### Semana 1: Checkpoint Integrado  
