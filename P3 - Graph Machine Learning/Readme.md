@@ -163,10 +163,13 @@
 - Feedback y ajustes finales del documento
 - Preparación para entrega
 
-###  DIAGRAMA EXPLICATIVO:
+###  Diagrama explicativo:
 
 ![alt text](./pantallazo/image.png)
 
-###  RESULTADOS CLAVE DEL PROYECTO:
+###  Resultados clave del proyecto:
 
 ![alt text](./pantallazo/image-1.png)
+
+### Commits over time
+![alt text](./pantallazo/commit.png)
